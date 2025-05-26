@@ -13,7 +13,7 @@ def exchange_money(budget, exchange_rate):
     :param exchange_rate: float - unit value of the foreign currency.
     :return: float - exchanged value of the foreign currency you can receive.
     """
-    pass
+    return budget / exchange_rate
 
 
 def get_change(budget, exchanging_value):
@@ -23,7 +23,7 @@ def get_change(budget, exchanging_value):
     :param exchanging_value: float - amount of your money you want to exchange now.
     :return: float - amount left of your starting currency after exchanging.
     """
-    pass
+    return budget - exchanging_value
 
 
 def get_value_of_bills(denomination, number_of_bills):
@@ -33,7 +33,7 @@ def get_value_of_bills(denomination, number_of_bills):
     :param number_of_bills: int - total number of bills.
     :return: int - calculated value of the bills.
     """
-    pass
+    return denomination * number_of_bills
 
 
 def get_number_of_bills(amount, denomination):
@@ -43,7 +43,7 @@ def get_number_of_bills(amount, denomination):
     :param denomination: int - the value of a single bill.
     :return: int - number of bills that can be obtained from the amount.
     """
-    pass
+    return int(amount // denomination)
 
 
 def get_leftover_of_bills(amount, denomination):
@@ -53,7 +53,7 @@ def get_leftover_of_bills(amount, denomination):
     :param denomination: int - the value of a single bill.
     :return: float - the amount that is "leftover", given the current denomination.
     """
-    pass
+    return amount % denomination
 
 
 def exchangeable_value(budget, exchange_rate, spread, denomination):
@@ -65,4 +65,21 @@ def exchangeable_value(budget, exchange_rate, spread, denomination):
     :param denomination: int - the value of a single bill.
     :return: int - maximum value you can get.
     """
-    pass
+    adjusted_rate = exchange_rate * (1 + spread / 100)
+
+    # Convert budget using the adjusted exchange rate
+    exchanged_amount = budget / adjusted_rate
+
+    # Calculate how many full denominations can be received
+    full_units = int(exchanged_amount // denomination)
+
+    # Return the total value in new currency
+    return full_units * denomination
+
+
+if __name__ == '__main__':
+    print(exchange_money(127.5, 1.2))
+    print(get_change(127.5, 120))
+    print(get_value_of_bills(5, 128))
+    print(get_number_of_bills(127.5, 5))
+    print(exchangeable_value(127.25, 1.20, 10, 20))
